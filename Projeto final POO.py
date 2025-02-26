@@ -9,17 +9,14 @@ from datetime import datetime
 import pandas as pd
 import matplotlib.pyplot as plt
 
-#Depois de pesquisar estratégias de Algorithmic Trading em finanças
-#Decidi tentar criar uma versão simplificada de uma Mean Reversion trading
-#Pois é um conceito simples e bem próximo do que foi dado nos exemplos
 
 class Estratégia(bt.Strategy):
     params = (
-        ("period", 15),
+        ("period", 50),
         ("threshold", 0.03),
     )
     def __init__(self):
-        self.average = bt.indicators.SimpleMovingAverage(self.data.close, period = 10)
+        self.average = bt.indicators.SimpleMovingAverage(self.data.close, period=self.params.period)
     
     def next(self):
         current_price = self.data.close[0]
@@ -78,4 +75,3 @@ final_cash = cerebro.broker.getvalue()
 print(f'Saldo inicial: ${initial_cash:.2f}')
 print(f'Saldo final: ${final_cash:.2f}')
 print(f'Lucro/Prejuízo: ${final_cash - initial_cash:.2f}')
-
