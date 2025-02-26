@@ -1,0 +1,56 @@
+class AtivoFinanceiro:
+    def __init__(self, nome, valor_investido, valor_atual):
+        self.nome = nome
+        self.valor_investido = valor_investido
+        self.valor_atual = valor_atual
+
+    def atualizar_valor_atual(self, incremento):
+        self.valor_atual += incremento
+        print(f'o valor atual novo é de {self.valor_atual}')
+        
+    def calcular_retorno_percentual(self):
+        retorno_percentual = ((self.valor_atual - self.valor_investido)/self.valor_investido)*100
+        return retorno_percentual
+    
+    def __str__(self):
+        retorno_percentual = self.calcular_retorno_percentual()
+        return (f'Nome do Ativo: {self.nome}\n'
+                f'Valor Investido: R${self.valor_investido:.2f}\n'
+                f'Valor Atual: R${self.valor_atual:.2f}\n'
+                f'Retorno Percentual: {retorno_percentual:.2f}%')
+
+
+class CarteiraInvestimentos:
+    def __init__(self):
+        self.ativos = []
+
+    def novo_ativo (self, ativo):
+        self.ativos.append(ativo)
+    
+    def investimento_total (self):
+        return sum(ativo.valor_investido for ativo in self.ativos)
+    
+    def valor_total (self):
+        return sum(ativo.valor_atual for ativo in self.ativos)
+    
+    def retorno_carteira (self):
+        investimento_total = self.investimento_total()
+        valor_total = self.valor_total()
+        return ((valor_total - investimento_total) / investimento_total) * 100
+    
+    def __str__(self):
+        ativos_info = "\n".join(str(ativo) for ativo in self.ativos)
+        return (f'Lista de Ativos:\n{ativos_info}\n'
+                f'Valor Investido: R${self.investimento_total():.2f}\n'
+                f'Valor Atual: R${self.valor_total():.2f}\n'
+                f'Retorno Percentual: {self.retorno_carteira():.2f}%')
+
+ação_itaú = AtivoFinanceiro("Ação Itaú", 1000, 1200)
+
+tesouro_direto = AtivoFinanceiro("Tesouro Direto", 2000, 2050)
+
+carteira = CarteiraInvestimentos()
+carteira.novo_ativo(ação_itaú)
+carteira.novo_ativo(tesouro_direto)
+
+print(carteira)
